@@ -1,7 +1,22 @@
+# Folders
+# build
+.vscode
+/build/preproc
+/build/sketch
+
+# Build results
+*.elf
+*.hex
+*.last-used
+*.ar
+*.json
+*.cache
+
 # Prerequisites
 *.d
 
 # Compiled Object files
+*.o
 *.slo
 *.lo
 *.o
