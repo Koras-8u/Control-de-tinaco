@@ -7,10 +7,19 @@ void setup() {
   // Set pinmodes for sensor connections
   pinMode(ECHOPIN, INPUT);
   pinMode(TRIGPIN, OUTPUT);
+  pinMode(PUMPPIN, OUTPUT);
+
+  millerWaterTank.measureWaterLvl();
 }
 
 void loop() {
-  if (millis() % 10000 == 0) tankMeter.measureWaterLvl();
-
-  distance = tankMeter.getDistance();
+  // Measuring task
+  if (millis() % 5000/*ms*/ == 0) {
+    Serial.println("Measuring water level...");
+    millerWaterTank.measureWaterLvl(); // when 10sec has passed, measure water level
+    waterTankState = millerWaterTank.getWaterTankState();
+  }
+  
+  // Rele Activation Task
+  millerPump.pumpsWater(waterTankState);
 }

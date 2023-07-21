@@ -15,8 +15,14 @@ CWaterMeter::~CWaterMeter() {}
 // --------------------------------------------------
 //                     FUNCTIONS
 // --------------------------------------------------
-
 void CWaterMeter::measureWaterLvl() {
+    measureDistance();
+    water_level = map(distance, water_tank_height, sensor_min_distance, 0, 100);
+    Serial.println("|\tWater level: " + String(water_level) + "%");
+    setWaterTankState();
+}
+
+void CWaterMeter::measureDistance() {
     // Set the trigger pin LOW for 2us
     digitalWrite(trig_pin, LOW);
     delayMicroseconds(2);
@@ -34,17 +40,30 @@ void CWaterMeter::measureWaterLvl() {
     // Determine distance from duration
     // Use 343 metres per second as speed of sound
     // Divide by 1000 as we want millimeters
-    distance = float(duration/2)*SOUND_SPEED*MPS2MMPUS;
+    distance = (duration*SOUND_SPEED/1000)/2;
+    //distance = constrain(distance, sensor_min_distance, water_tank_height);
 
     // Print result to serial monitor
-    Serial.print("distance: ");
-    Serial.print(distance);
-    Serial.println(" mm");
+    Serial.println("|\t|\tDistance: " + String(distance) + " mm");
+}
+
+void CWaterMeter::setWaterTankState() {
+    if (water_level > 90) {
+        water_tank_state = LOW;
+        Serial.println("|\t|\tWater tank is full!");
+    } else if (water_level < 10) {
+        water_tank_state = HIGH;
+        Serial.println("|\t|\tNeed to fill up water tank!");
+    }
 }
 
 // --------------------------------------------------
 //                 GETTERS & SETTERS                 
 // --------------------------------------------------
-float CWaterMeter::getDistance() {
+unsigned int CWaterMeter::getDistance() {
     return distance;
+}
+
+bool CWaterMeter::getWaterTankState() {
+    return water_tank_state;
 }
