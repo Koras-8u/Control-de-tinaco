@@ -1,26 +1,26 @@
-#include "CPump.h"
+#include "Pump.h"
 
 // --------------------------------------------------
 //                    CONSTRUCTORS                    
 // --------------------------------------------------
-CPump::CPump() {}
+Pump::Pump() {}
 
-CPump::CPump(uint8_t pin) {
+Pump::Pump(uint8_t pin) {
     this->pin = pin;
 }
 
-CPump::~CPump() {}
+Pump::~Pump() {}
 
 // --------------------------------------------------
 //                     FUNCTIONS
 // --------------------------------------------------
 
-void CPump::pumpsWater(bool state) {
-        digitalWrite(pin, state);
-        if(state != last_state) {
+void Pump::pumpsWater(bool status) {
+        digitalWrite(pin, status);
+        if(status != last_status) {
             Serial.print("|\tPump:");
-            Serial.println(state ? " ON" : " OFF");
-            last_state = state;
+            Serial.println(status ? " ON" : " OFF");
+            last_status = status;
         }
 }
 

@@ -1,23 +1,28 @@
-#ifndef CWaterMeter_h
-#define CWaterMeter_h
+#ifndef JSN_SR04T_h
+#define JSN_SR04T_h
 
 #include <Arduino.h>
 
+// SENSOR
+#define MAX_DISTANCE 6000 // mm
+#define MIN_DISTANCE 200 // mm
+
+// GLOBAL
 #define SOUND_SPEED 343.0 // m/s
 
-class CWaterMeter {
+class JSN_SR04T {
     public:
-        CWaterMeter();
-        CWaterMeter(uint8_t, uint8_t);
-        ~CWaterMeter();
+        JSN_SR04T();
+        JSN_SR04T(uint8_t, uint8_t);
+        ~JSN_SR04T();
         void measureWaterLvl();
         bool getWaterTankState();
 
     private:
         // Config
         uint8_t trig_pin, echo_pin;
-        unsigned int water_tank_height = 1500; // mm
-        unsigned int sensor_min_distance = 450; // mm
+        unsigned int water_tank_height = 1400; // mm
+        unsigned int min_func_distance = 300; // mm
 
         // Inputs
         unsigned long duration = 0;
@@ -27,12 +32,12 @@ class CWaterMeter {
 
         // Outputs
         uint8_t water_level = 0; // Percentage
-        bool water_tank_state = false;
+        bool water_tank_status = false;
 
         // Methods
         void measureDistance();
         unsigned int getDistance();
-        void setWaterTankState();
+        void changeStatus();
 };
 
 #endif

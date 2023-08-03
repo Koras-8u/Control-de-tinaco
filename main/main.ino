@@ -9,15 +9,15 @@ void setup() {
   pinMode(TRIGPIN, OUTPUT);
   pinMode(PUMPPIN, OUTPUT);
 
-  millerWaterTank.measureWaterLvl();
+  waterTank.measureWaterLvl();
 }
 
 void loop() {
   // Measuring task
   if (millis() % 5000/*ms*/ == 0) {
     Serial.println("Measuring water level...");
-    millerWaterTank.measureWaterLvl(); // when 10sec has passed, measure water level
-    waterTankState = millerWaterTank.getWaterTankState();
+    waterTank.measureWaterLvl(); // when 10sec has passed, measure water level
+    waterTankState = waterTank.getWaterTankState();
   }
   
   // Rele Activation Task

@@ -1,8 +1,8 @@
 #ifndef main_h
 #define main_h
 
-#include "CWaterMeter.h"
-#include "CPump.h"
+#include "JSN_SR04T.h"
+#include "Pump.h"
 
 // Sensor pins
 #define TRIGPIN 12
@@ -12,8 +12,8 @@
 #define PUMPPIN 13
 
 // Constructors
-CWaterMeter millerWaterTank(TRIGPIN, ECHOPIN);
-CPump millerPump(PUMPPIN);
+JSN_SR04T waterTank(TRIGPIN, ECHOPIN);
+Pump millerPump(PUMPPIN);
 
 // Water level variables
 bool  waterTankState = LOW;

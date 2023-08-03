@@ -1,28 +1,28 @@
-#include "CWaterMeter.h"
+#include "JSN_SR04T.h"
 
 // --------------------------------------------------
 //                    CONSTRUCTORS                    
 // --------------------------------------------------
-CWaterMeter::CWaterMeter() {}
+JSN_SR04T::JSN_SR04T() {}
 
-CWaterMeter::CWaterMeter(uint8_t trig_pin, uint8_t echo_pin) {
+JSN_SR04T::JSN_SR04T(uint8_t trig_pin, uint8_t echo_pin) {
     this->trig_pin = trig_pin;
     this->echo_pin = echo_pin;
 }
 
-CWaterMeter::~CWaterMeter() {}
+JSN_SR04T::~JSN_SR04T() {}
 
 // --------------------------------------------------
 //                     FUNCTIONS
 // --------------------------------------------------
-void CWaterMeter::measureWaterLvl() {
+void JSN_SR04T::measureWaterLvl() {
     measureDistance();
-    water_level = map(distance, water_tank_height, sensor_min_distance, 0, 100);
+    water_level = map(distance, water_tank_height, min_func_distance, 0, 100);
     Serial.println("|\tWater level: " + String(water_level) + "%");
-    setWaterTankState();
+    changeStatus();
 }
 
-void CWaterMeter::measureDistance() {
+void JSN_SR04T::measureDistance() {
     // Set the trigger pin LOW for 2us
     digitalWrite(trig_pin, LOW);
     delayMicroseconds(2);
@@ -41,18 +41,18 @@ void CWaterMeter::measureDistance() {
     // Use 343 metres per second as speed of sound
     // Divide by 1000 as we want millimeters
     distance = (duration*SOUND_SPEED/1000)/2;
-    //distance = constrain(distance, sensor_min_distance, water_tank_height);
+    distance = constrain(distance, min_func_distance, water_tank_height);
 
     // Print result to serial monitor
     Serial.println("|\t|\tDistance: " + String(distance) + " mm");
 }
 
-void CWaterMeter::setWaterTankState() {
+void JSN_SR04T::changeStatus() {
     if (water_level > 90) {
-        water_tank_state = LOW;
+        water_tank_status = LOW;
         Serial.println("|\t|\tWater tank is full!");
     } else if (water_level < 10) {
-        water_tank_state = HIGH;
+        water_tank_status = HIGH;
         Serial.println("|\t|\tNeed to fill up water tank!");
     }
 }
@@ -60,10 +60,10 @@ void CWaterMeter::setWaterTankState() {
 // --------------------------------------------------
 //                 GETTERS & SETTERS                 
 // --------------------------------------------------
-unsigned int CWaterMeter::getDistance() {
+unsigned int JSN_SR04T::getDistance() {
     return distance;
 }
 
-bool CWaterMeter::getWaterTankState() {
-    return water_tank_state;
+bool JSN_SR04T::getWaterTankState() {
+    return water_tank_status;
 }
