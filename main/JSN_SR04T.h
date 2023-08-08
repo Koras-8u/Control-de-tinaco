@@ -22,7 +22,7 @@ class JSN_SR04T {
         // Config
         uint8_t trig_pin, echo_pin;
         unsigned int water_tank_height = 1400; // mm
-        unsigned int min_func_distance = MIN_DISTANCE + 100; // mm
+        unsigned int min_func_distance = MIN_DISTANCE + 250; // mm
 
         // Inputs
         unsigned long duration = 0;
