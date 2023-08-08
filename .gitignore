@@ -4,12 +4,17 @@
 /build/sketch
 
 # Build results
+build_opt.h
 *.elf
 *.hex
 *.last-used
 *.ar
 *.json
 *.cache
+*.bootloader.bin
+*.map
+*.partitions.bin
+*.csv
 
 # Prerequisites
 *.d
