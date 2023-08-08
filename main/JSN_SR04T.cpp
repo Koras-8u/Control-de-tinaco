@@ -18,7 +18,7 @@ JSN_SR04T::~JSN_SR04T() {}
 void JSN_SR04T::measureWaterLvl() {
     measureDistance();
     water_level = map(distance, water_tank_height, min_func_distance, 0, 100);
-    Serial.println("|\tWater level: " + String(water_level) + "%");
+    Serial.println("|\t-Water level: " + String(water_level) + "%");
     changeStatus();
 }
 
@@ -37,6 +37,8 @@ void JSN_SR04T::measureDistance() {
     // Measure the width of the incoming pulse
     duration = pulseIn(echo_pin, HIGH); // us
 
+    Serial.println("|\t|\t-Duration: " + String(duration) + " us");
+
     // Determine distance from duration
     // Use 343 metres per second as speed of sound
     // Divide by 1000 as we want millimeters
@@ -44,16 +46,16 @@ void JSN_SR04T::measureDistance() {
     distance = constrain(distance, min_func_distance, water_tank_height);
 
     // Print result to serial monitor
-    Serial.println("|\t|\tDistance: " + String(distance) + " mm");
+    Serial.println("|\t|\t-Distance: " + String(distance) + " mm");
 }
 
 void JSN_SR04T::changeStatus() {
     if (water_level > 90) {
         water_tank_status = HIGH;
-        Serial.println("|\t|\tWater tank is full!");
+        Serial.println("|\t|\t-Water tank is full!");
     } else if (water_level < 15) {
         water_tank_status = LOW;
-        Serial.println("|\t|\tNeed to fill up water tank!");
+        Serial.println("|\t|\t-Need to fill up water tank!");
     }
 }
 

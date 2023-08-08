@@ -16,6 +16,6 @@ JSN_SR04T waterTank(TRIGPIN, ECHOPIN);
 Pump millerPump(PUMPPIN);
 
 // Water level variables
-bool  waterTankState = LOW;
+bool  waterTankState = HIGH;
 
 #endif

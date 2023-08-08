@@ -4,20 +4,23 @@ void setup() {
   // Set up serial monitor
   Serial.begin(115200);
 
-  // Set pinmodes for sensor connections
+  // Start pump
+  pinMode(PUMPPIN, OUTPUT);
+  millerPump.pumpsWater(true);
+  Serial.println("-Pump is OFF");
+
+  // Start sensor
   pinMode(ECHOPIN, INPUT);
   pinMode(TRIGPIN, OUTPUT);
-  pinMode(PUMPPIN, OUTPUT);
-
   waterTank.measureWaterLvl();
-  millerPump.pumpsWater(true);
+  Serial.println("-Water level sensor is ready!");
 }
 
 void loop() {
   // Measuring task
-  if (millis() % 4000/*ms*/ == 0) {
-    Serial.println("Measuring water level...");
-    waterTank.measureWaterLvl(); // when 4sec has passed, measure water level
+  if (millis() % 7000/*ms*/ == 0) {
+    Serial.println("-Measuring water level...");
+    waterTank.measureWaterLvl(); // when 7sec has passed, measure water level
     waterTankState = waterTank.getWaterTankState();
   }
   
