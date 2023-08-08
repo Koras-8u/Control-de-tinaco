@@ -5,10 +5,10 @@
 
 // SENSOR
 #define MAX_DISTANCE 6000 // mm
-#define MIN_DISTANCE 400 // mm
+#define MIN_DISTANCE 200 // mm
 
 // GLOBAL
-#define SOUND_SPEED 343.0 // m/s
+#define SOUND_SPEED 343 // m/s
 
 class JSN_SR04T {
     public:

@@ -27,9 +27,9 @@ void JSN_SR04T::measureDistance() {
     digitalWrite(trig_pin, LOW);
     delayMicroseconds(2);
 
-    // Set the trigger pin HIGH for 20us to send pulse
+    // Set the trigger pin HIGH for 10us to send pulse
     digitalWrite(trig_pin, HIGH);
-    delayMicroseconds(20);
+    delayMicroseconds(10);
 
     // Return the trigger pin to LOW
     digitalWrite(trig_pin, LOW);
