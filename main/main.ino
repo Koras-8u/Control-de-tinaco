@@ -17,13 +17,13 @@ void setup() {
 }
 
 void loop() {
-  // Measuring task
+  // Measure the water level every 3sec
   if (millis() % 3000/*ms*/ == 0) {
     Serial.println("-Measuring water level...");
-    millerWaterTank.measureWaterLvl(); // when 3sec has passed, measure water level
+    millerWaterTank.measureWaterLvl();
     waterTankStatus = millerWaterTank.getWaterTankStatus();
   }
-  
+
   // Rele Activation Task
-  millerPump.pumpsWater(waterTankStatus);
+  millerPump.pumpsWater(pumpConfirmation);
 }

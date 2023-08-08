@@ -25,7 +25,7 @@ void WaterTank::measureWaterLvl() {
 
     // Constrain distance to max water height
     distance = constrain(sensor.getDistance(), min_water_distance, water_tank_height);
-    Serial.println("|\t-Constrained distance: " + String(distance) + " mm");
+    // Serial.println("|\t-Constrained distance: " + String(distance) + " mm");
 
     // Calculate water level
     water_level = map(distance, water_tank_height, min_water_distance, 0, 100);
@@ -35,11 +35,14 @@ void WaterTank::measureWaterLvl() {
 }
 
 void WaterTank::changeStatus() {
-    if (water_level > 90) {
-        water_tank_status = HIGH;
+    if (water_level >= 90) {
+        status = 1;
         Serial.println("|\t-Water tank is full!");
-    } else if (water_level < 10) {
-        water_tank_status = LOW;
+    } else if (water_level > 10 && water_level < 90) {
+        status = 2;
+        Serial.println("|\t-Water is in use");
+    } else if (water_level <= 10) {
+        status = 0;
         Serial.println("|\t-Need to fill up water tank!");
     }
 }
@@ -56,5 +59,5 @@ void WaterTank::setMinWaterDistance(unsigned int min_water_distance) {
 }
 
 bool WaterTank::getWaterTankStatus() {
-    return water_tank_status;
+    return status;
 }

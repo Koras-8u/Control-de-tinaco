@@ -15,12 +15,16 @@
 #define WATER_TANK_HEIGHT 1400 // mm
 #define MIN_WATER_DISTANCE 500 // mm
 
-// Constructors
+// Components
 JSN_SR04T millerSensor(TRIGPIN, ECHOPIN);
 WaterTank millerWaterTank(millerSensor, WATER_TANK_HEIGHT, MIN_WATER_DISTANCE);
 Pump millerPump(PUMPPIN);
 
-// Water level variables
-bool waterTankStatus = HIGH;
+// Operators
+    // Water tank
+    bool waterTankStatus = HIGH;
+    // Controller
+    unsigned int waterTankChecks = 0;
+    bool pumpConfirmation = false;
 
 #endif

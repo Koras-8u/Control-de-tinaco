@@ -31,7 +31,7 @@ class WaterTank {
 
         // Outputs
         uint8_t water_level = 0; // Percentage
-        bool water_tank_status = true;
+        uint8_t status = 1; // 0 = Empty, 1 = Full, 2 = In use
 
         // Functions
         void changeStatus();
