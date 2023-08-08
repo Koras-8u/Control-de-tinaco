@@ -40,20 +40,18 @@ void JSN_SR04T::measureDistance() {
     Serial.println("|\t|\t-Duration: " + String(duration) + " us");
 
     // Determine distance from duration
-    // Use 343 metres per second as speed of sound
-    // Divide by 1000 as we want millimeters
-    distance = (duration*SOUND_SPEED/1000)/2;
-    distance = constrain(distance, min_func_distance, water_tank_height);
-
-    // Print result to serial monitor
+    distance = (duration*SOUND_SPEED/1000)/2; // Converting m/s to mm/us
     Serial.println("|\t|\t-Distance: " + String(distance) + " mm");
+
+    distance = constrain(distance, min_func_distance, water_tank_height);
+    Serial.println("|\t|\t-Constrained distance: " + String(distance) + " mm");
 }
 
 void JSN_SR04T::changeStatus() {
     if (water_level > 90) {
         water_tank_status = HIGH;
         Serial.println("|\t|\t-Water tank is full!");
-    } else if (water_level < 15) {
+    } else if (water_level < 10) {
         water_tank_status = LOW;
         Serial.println("|\t|\t-Need to fill up water tank!");
     }
