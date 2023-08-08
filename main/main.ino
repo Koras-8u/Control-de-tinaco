@@ -15,9 +15,9 @@ void setup() {
 
 void loop() {
   // Measuring task
-  if (millis() % 5000/*ms*/ == 0) {
+  if (millis() % 4000/*ms*/ == 0) {
     Serial.println("Measuring water level...");
-    waterTank.measureWaterLvl(); // when 5sec has passed, measure water level
+    waterTank.measureWaterLvl(); // when 4sec has passed, measure water level
     waterTankState = waterTank.getWaterTankState();
   }
   
