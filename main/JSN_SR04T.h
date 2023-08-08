@@ -5,7 +5,7 @@
 
 // SENSOR
 #define MAX_DISTANCE 6000 // mm
-#define MIN_DISTANCE 200 // mm
+#define MIN_DISTANCE 400 // mm
 
 // GLOBAL
 #define SOUND_SPEED 343.0 // m/s
@@ -22,7 +22,7 @@ class JSN_SR04T {
         // Config
         uint8_t trig_pin, echo_pin;
         unsigned int water_tank_height = 1400; // mm
-        unsigned int min_func_distance = 300; // mm
+        unsigned int min_func_distance = MIN_DISTANCE + 100; // mm
 
         // Inputs
         unsigned long duration = 0;
@@ -32,7 +32,7 @@ class JSN_SR04T {
 
         // Outputs
         uint8_t water_level = 0; // Percentage
-        bool water_tank_status = false;
+        bool water_tank_status = true;
 
         // Methods
         void measureDistance();

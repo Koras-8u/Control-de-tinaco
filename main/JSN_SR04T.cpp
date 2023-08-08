@@ -49,10 +49,10 @@ void JSN_SR04T::measureDistance() {
 
 void JSN_SR04T::changeStatus() {
     if (water_level > 90) {
-        water_tank_status = LOW;
-        Serial.println("|\t|\tWater tank is full!");
-    } else if (water_level < 10) {
         water_tank_status = HIGH;
+        Serial.println("|\t|\tWater tank is full!");
+    } else if (water_level < 15) {
+        water_tank_status = LOW;
         Serial.println("|\t|\tNeed to fill up water tank!");
     }
 }

@@ -10,13 +10,14 @@ void setup() {
   pinMode(PUMPPIN, OUTPUT);
 
   waterTank.measureWaterLvl();
+  millerPump.pumpsWater(true);
 }
 
 void loop() {
   // Measuring task
   if (millis() % 5000/*ms*/ == 0) {
     Serial.println("Measuring water level...");
-    waterTank.measureWaterLvl(); // when 10sec has passed, measure water level
+    waterTank.measureWaterLvl(); // when 5sec has passed, measure water level
     waterTankState = waterTank.getWaterTankState();
   }
   
