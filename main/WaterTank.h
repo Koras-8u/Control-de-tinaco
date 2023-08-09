@@ -3,6 +3,11 @@
 
 #include "JSN_SR04T.h"
 
+// Water tank status
+#define EMPTY 0
+#define FULL 1
+#define FINE 2
+
 class WaterTank {
     public:
         WaterTank();
@@ -16,7 +21,7 @@ class WaterTank {
         // Setters and getters
         void setWaterTankHeight(unsigned int);
         void setMinWaterDistance(unsigned int);
-        bool getWaterTankStatus();
+        uint8_t getWaterTankStatus();
 
     private:
         // Components
@@ -31,7 +36,7 @@ class WaterTank {
 
         // Outputs
         uint8_t water_level = 0; // Percentage
-        uint8_t status = 1; // 0 = Empty, 1 = Full, 2 = In use
+        uint8_t status = FULL; // 0 = EMPTY, 1 = FULL, 2 = FINE
 
         // Functions
         void changeStatus();

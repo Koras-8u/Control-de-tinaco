@@ -15,8 +15,8 @@ class Pump {
         uint8_t pin;
 
         // Outputs
-        bool status = HIGH;
-        bool last_status = HIGH;
+        bool status = LOW;
+        bool last_status = LOW;
 
 };
 

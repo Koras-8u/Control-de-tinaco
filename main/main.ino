@@ -6,7 +6,7 @@ void setup() {
 
   // Start pump
   pinMode(PUMPPIN, OUTPUT);
-  millerPump.pumpsWater(true);
+  millerPump.pumpsWater(false);
   Serial.println("-Pump is OFF");
 
   // Start sensor
@@ -24,6 +24,38 @@ void loop() {
     waterTankStatus = millerWaterTank.getWaterTankStatus();
   }
 
-  // Rele Activation Task
+  // Controller
+  switch (waterTankStatus) {
+    case EMPTY:
+      emptyChecks++; // How many times the water tank has been detected as empty
+      fullChecks = 0;
+      // failChecks++;
+      waterTankStatus = FINE;
+      if (emptyChecks == 5) {
+        pumpConfirmation = true;
+        emptyChecks = 0;
+      }
+      break;
+    case FULL:
+      fullChecks++; // How many times the water tank has been detected as full
+      emptyChecks = 0;
+      // failChecks++;
+      waterTankStatus = FINE;
+      if (fullChecks == 5) {
+        pumpConfirmation = false;
+        fullChecks = 0;
+      }
+      break;
+    default:
+      break;
+  }
+
+  // if (failChecks >= 10) {
+  //   pumpConfirmation = false;
+  //   failChecks = 0;
+  //   Serial.println("-EXCEPTION: Sensor is not working properly!");
+  // }
+
+  // Activates the pump
   millerPump.pumpsWater(pumpConfirmation);
 }

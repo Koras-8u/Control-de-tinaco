@@ -40,7 +40,7 @@ void WaterTank::changeStatus() {
         Serial.println("|\t-Water tank is full!");
     } else if (water_level > 10 && water_level < 90) {
         status = 2;
-        Serial.println("|\t-Water is in use");
+        Serial.println("|\t-Water is fine");
     } else if (water_level <= 10) {
         status = 0;
         Serial.println("|\t-Need to fill up water tank!");
@@ -58,6 +58,6 @@ void WaterTank::setMinWaterDistance(unsigned int min_water_distance) {
     this->min_water_distance = min_water_distance;
 }
 
-bool WaterTank::getWaterTankStatus() {
+uint8_t WaterTank::getWaterTankStatus() {
     return status;
 }

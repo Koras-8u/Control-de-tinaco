@@ -22,9 +22,11 @@ Pump millerPump(PUMPPIN);
 
 // Operators
     // Water tank
-    bool waterTankStatus = HIGH;
+    uint8_t waterTankStatus = FULL; // 0 = EMPTY, 1 = FULL, 2 = FINE
     // Controller
-    unsigned int waterTankChecks = 0;
+    unsigned int fullChecks = 0;
+    unsigned int emptyChecks = 0;
+    // unsigned int failChecks = 0;
     bool pumpConfirmation = false;
 
 #endif

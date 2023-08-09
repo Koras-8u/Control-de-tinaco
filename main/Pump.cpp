@@ -16,10 +16,10 @@ Pump::~Pump() {}
 // --------------------------------------------------
 
 void Pump::pumpsWater(bool status) {
-        digitalWrite(pin, status); // HIGH = OFF, LOW = ON
+        digitalWrite(pin, !status);
         if(status != last_status) {
             Serial.print("|\t-Pump:");
-            Serial.println(status ? " OFF" : " ON");
+            Serial.println(status ? " ON" : " OFF");
             last_status = status;
         }
 }
