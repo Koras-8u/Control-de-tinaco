@@ -31,7 +31,7 @@ void loop() {
       fullChecks = 0;
       // failChecks++;
       waterTankStatus = FINE;
-      if (emptyChecks == 5) {
+      if (emptyChecks == 3) {
         pumpConfirmation = true;
         emptyChecks = 0;
       }
@@ -41,7 +41,7 @@ void loop() {
       emptyChecks = 0;
       // failChecks++;
       waterTankStatus = FINE;
-      if (fullChecks == 5) {
+      if (fullChecks == 3) {
         pumpConfirmation = false;
         fullChecks = 0;
       }
