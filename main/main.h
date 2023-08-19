@@ -2,14 +2,20 @@
 #define main_h
 
 #include "WaterTank.h"
-#include "Pump.h"
+#include "Relay.h"
+#include "PumpController.h"
+#include "TaskManagerClock.h"
+
+#define SERIAL_LINE "________________________________________"
 
 // Sensor pins
-#define TRIGPIN 12
-#define ECHOPIN 14
+#define TRIGPIN 12 // D6
+#define ECHOPIN 14 // D5
+    // Omisor de sensor
+    #define CTRLOMITTER 5 // D1
 
 // Actuator pins
-#define PUMPPIN 13
+#define PUMPPIN 13 // D7
 
 // Water tank Specs
 #define WATER_TANK_HEIGHT 1400 // mm
@@ -18,15 +24,19 @@
 // Components
 JSN_SR04T millerSensor(TRIGPIN, ECHOPIN);
 WaterTank millerWaterTank(millerSensor, WATER_TANK_HEIGHT, MIN_WATER_DISTANCE);
-Pump millerPump(PUMPPIN);
+Relay millerPump(PUMPPIN, "Pump");
+//TaskManagerClock fillingClock;
+TaskManagerClock pumpClock;
 
 // Operators
     // Water tank
     uint8_t waterTankStatus = FULL; // 0 = EMPTY, 1 = FULL, 2 = FINE
+
     // Controller
     unsigned int fullChecks = 0;
     unsigned int emptyChecks = 0;
     // unsigned int failChecks = 0;
     bool pumpConfirmation = false;
+    bool ignoreController = false;
 
 #endif

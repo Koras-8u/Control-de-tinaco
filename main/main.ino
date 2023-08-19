@@ -6,23 +6,24 @@ void setup() {
 
   // Start pump
   pinMode(PUMPPIN, OUTPUT);
-  millerPump.pumpsWater(false);
+  millerPump.activates(false);
   Serial.println("-Pump is OFF");
 
   // Start sensor
   pinMode(ECHOPIN, INPUT);
   pinMode(TRIGPIN, OUTPUT);
+  pinMode(CTRLOMITTER, INPUT);
   millerWaterTank.measureWaterLvl();
   Serial.println("-Water level sensor is ready!");
+
+  // Start clock
+  pumpClock.start();
 }
 
 void loop() {
   // Measure the water level every 3sec
-  if (millis() % 3000/*ms*/ == 0) {
-    Serial.println("-Measuring water level...");
-    millerWaterTank.measureWaterLvl();
-    waterTankStatus = millerWaterTank.getWaterTankStatus();
-  }
+  Serial.println(SERIAL_LINE);
+  pumpClock.checksEvery(3000/*ms*/, updateWaterTankStatus);
 
   // Controller
   switch (waterTankStatus) {
@@ -32,8 +33,8 @@ void loop() {
       // failChecks++;
       waterTankStatus = FINE;
       if (emptyChecks == 3) {
-        pumpConfirmation = true;
-        emptyChecks = 0;
+          pumpConfirmation = true;
+          emptyChecks = 0;
       }
       break;
     case FULL:
@@ -42,20 +43,19 @@ void loop() {
       // failChecks++;
       waterTankStatus = FINE;
       if (fullChecks == 3) {
-        pumpConfirmation = false;
-        fullChecks = 0;
+          pumpConfirmation = false;
+          fullChecks = 0;
       }
       break;
     default:
       break;
-  }
-
-  // if (failChecks >= 10) {
-  //   pumpConfirmation = false;
-  //   failChecks = 0;
-  //   Serial.println("-EXCEPTION: Sensor is not working properly!");
-  // }
+    }
 
   // Activates the pump
-  millerPump.pumpsWater(pumpConfirmation);
+  millerPump.activates(pumpConfirmation);
+}
+
+void updateWaterTankStatus() {
+  millerWaterTank.measureWaterLvl();
+  waterTankStatus = millerWaterTank.getWaterTankStatus();
 }

@@ -21,6 +21,7 @@ WaterTank::~WaterTank() {}
 //                     FUNCTIONS
 // --------------------------------------------------
 void WaterTank::measureWaterLvl() {
+    Serial.println("|\t-Measuring water level...");
     sensor.measureDistance();
 
     // Constrain distance to max water height
