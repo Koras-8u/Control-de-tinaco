@@ -25,7 +25,7 @@ void loop() {
   millerPumpClock.checksEvery(3000/*ms*/, updateWaterTankStatus);
 
   // Confirm if the water tank needs to be filled
-  millerPumpController.needToFillUp(waterTankStatus);
+  waterTankStatus = millerPumpController.needToFillUp(waterTankStatus);
   bool pumpConfirmation = millerPumpController.getConfirmation();
 
   // Activate the pump

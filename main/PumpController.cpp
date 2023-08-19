@@ -12,14 +12,14 @@ PumpController::~PumpController() {}
 //                     FUNCTIONS
 // --------------------------------------------------
 
-void PumpController::needToFillUp(uint8_t waterTankStatus) {
+uint8_t PumpController::needToFillUp(uint8_t water_tank_status) {
     if(!ignore) {
-        switch (waterTankStatus) {
+        switch (water_tank_status) {
         case EMPTY:
             emptyChecks++; // How many times the water tank has been detected as empty
             fullChecks = 0;
             // failChecks++;
-            waterTankStatus = FINE;
+            water_tank_status = FINE;
             if (emptyChecks == 3) {
                 confirmation = true;
                 emptyChecks = 0;
@@ -29,7 +29,7 @@ void PumpController::needToFillUp(uint8_t waterTankStatus) {
             fullChecks++; // How many times the water tank has been detected as full
             emptyChecks = 0;
             // failChecks++;
-            waterTankStatus = FINE;
+            water_tank_status = FINE;
             if (fullChecks == 3) {
                 confirmation = false;
                 fullChecks = 0;
@@ -40,8 +40,11 @@ void PumpController::needToFillUp(uint8_t waterTankStatus) {
         }
     }
     else {
+        water_tank_status = FINE;
         confirmation = true;
     }
+
+    return water_tank_status;
 }
 
 /*
