@@ -37,13 +37,13 @@ void WaterTank::measureWaterLvl() {
 
 void WaterTank::changeStatus() {
     if (water_level >= 90) {
-        status = 1;
+        status = FULL;
         Serial.println("|\t-Water tank is full!");
     } else if (water_level > 10 && water_level < 90) {
-        status = 2;
+        status = FINE;
         Serial.println("|\t-Water is fine");
     } else if (water_level <= 10) {
-        status = 0;
+        status = EMPTY;
         Serial.println("|\t-Need to fill up water tank!");
     }
 }

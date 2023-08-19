@@ -16,8 +16,8 @@ class Relay {
         ~Relay();
 
         // Functions
-        void activates(bool, String);
-        void activates(bool);
+        void activate(bool, String);
+        void activate(bool);
 
         // Setters and getters
         void setPin(uint8_t);

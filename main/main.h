@@ -26,17 +26,11 @@ JSN_SR04T millerSensor(TRIGPIN, ECHOPIN);
 WaterTank millerWaterTank(millerSensor, WATER_TANK_HEIGHT, MIN_WATER_DISTANCE);
 Relay millerPump(PUMPPIN, "Pump");
 //TaskManagerClock fillingClock;
-TaskManagerClock pumpClock;
+TaskManagerClock millerPumpClock;
+PumpController millerPumpController;
 
 // Operators
     // Water tank
     uint8_t waterTankStatus = FULL; // 0 = EMPTY, 1 = FULL, 2 = FINE
-
-    // Controller
-    unsigned int fullChecks = 0;
-    unsigned int emptyChecks = 0;
-    // unsigned int failChecks = 0;
-    bool pumpConfirmation = false;
-    bool ignoreController = false;
 
 #endif

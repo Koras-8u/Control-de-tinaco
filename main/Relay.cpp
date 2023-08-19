@@ -20,7 +20,7 @@ Relay::~Relay() {}
 //                     FUNCTIONS
 // --------------------------------------------------
 
-void Relay::activates(bool status, String device_name) {
+void Relay::activate(bool status, String device_name) {
         digitalWrite(pin, !status);
         if(status != last_status) {
             Serial.print("|\t-" + device_name + ":");
@@ -29,8 +29,8 @@ void Relay::activates(bool status, String device_name) {
         }
 }
 
-void Relay::activates(bool status) {
-    activates(status, device_name);
+void Relay::activate(bool status) {
+    activate(status, device_name);
 }
 
 // --------------------------------------------------
