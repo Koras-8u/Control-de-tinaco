@@ -10,7 +10,8 @@ class PumpController {
         ~PumpController();
 
         // Functions
-        uint8_t needToFillUp(uint8_t);
+        void ignoreValidations(uint8_t);
+        uint8_t validations(uint8_t);
 
         // Setters and getters
         bool getConfirmation();

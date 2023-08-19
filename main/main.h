@@ -12,7 +12,7 @@
 #define TRIGPIN 12 // D6
 #define ECHOPIN 14 // D5
     // Omisor de sensor
-    #define CTRLOMITTER 5 // D1
+    #define IGNORER 5 // D1
 
 // Actuator pins
 #define PUMPPIN 13 // D7

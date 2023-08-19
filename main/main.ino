@@ -12,7 +12,7 @@ void setup() {
   // Start sensor
   pinMode(ECHOPIN, INPUT);
   pinMode(TRIGPIN, OUTPUT);
-  pinMode(CTRLOMITTER, INPUT);
+  pinMode(IGNORER, INPUT);
   millerWaterTank.measureWaterLvl();
   Serial.println("-Water level sensor is ready!");
 
@@ -25,7 +25,8 @@ void loop() {
   millerPumpClock.checksEvery(3000/*ms*/, updateWaterTankStatus);
 
   // Confirm if the water tank needs to be filled
-  waterTankStatus = millerPumpController.needToFillUp(waterTankStatus);
+  millerPumpController.ignoreValidations(IGNORER);
+  waterTankStatus = millerPumpController.validations(waterTankStatus);
   bool pumpConfirmation = millerPumpController.getConfirmation();
 
   // Activate the pump

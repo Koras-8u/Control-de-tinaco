@@ -11,8 +11,15 @@ PumpController::~PumpController() {}
 // --------------------------------------------------
 //                     FUNCTIONS
 // --------------------------------------------------
+void PumpController::ignoreValidations(uint8_t pin) {
+    if (digitalRead(pin) == HIGH) {
+        ignore = true; // controller has to be omited
+    } else {
+        ignore = false; // controller has to work normally
+    }
+}
 
-uint8_t PumpController::needToFillUp(uint8_t water_tank_status) {
+uint8_t PumpController::validations(uint8_t water_tank_status) {
     if(!ignore) {
         switch (water_tank_status) {
         case EMPTY:
@@ -49,11 +56,7 @@ uint8_t PumpController::needToFillUp(uint8_t water_tank_status) {
 
 /*
   // Ignore controller
-    if (digitalRead(CTRLOMITTER) == HIGH) {
-    ignore = true; // controller must be omited
-    } else {
-    ignore = false; // controller must be working
-    }
+
 
 // Controller
     if(ignore) {
