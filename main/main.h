@@ -5,7 +5,7 @@
 #include "Relay.h"
 #include "PumpController.h"
 #include "TaskManagerClock.h"
-//#include "WifiAdapter.h"
+#include "WifiAdapter.h"
 
 #define SERIAL_LINE "________________________________________"
 
@@ -21,6 +21,7 @@
 // Credentials
 const char* ssid = "MEGACABLE-2.4G-CAA5";
 const char* pass = "T339FtCBVX";
+const char* mqtt_server = "test.mosquitto.org";
 
 // Water tank Specs
 #define WATER_TANK_HEIGHT 1400 // mm

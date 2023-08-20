@@ -2,7 +2,7 @@
 #define WifiAdapter_h
 
 #include <ESP8266WiFi.h>
-#include <BlynkSimpleEsp8266.h>
+#include <PubSubClient.h>
 
 class WifiAdapter {
     public:
@@ -10,20 +10,25 @@ class WifiAdapter {
         ~WifiAdapter();
         void connect2Wifi(void);
 
+        // Setters and getters
+        void setSsid(const char*);
+        void setPass(const char*);
+
+
     private:
+        // Components
+        WiFiClient espClient;
+        PubSubClient client;
+
         // Inputs
             // Connection
-            bool connection = false;
             const char* ssid = "";
             const char* pass = "";
-
-            // mDash
-            bool updateEnabler = true;
-            char* deviceKey = "";
         
         // Operation
 
         // Outputs
+        bool connection = false;
 };
 
 #endif
