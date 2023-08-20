@@ -1,16 +1,15 @@
 #ifndef WifiAdapter_h
 #define WifiAdapter_h
 
-#include "WiFi.h"
-#include "mDash.h"
-#include "ArduinoJson.h"
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h>
 
 class WifiAdapter {
     public:
         WifiAdapter();
         ~WifiAdapter();
         void connect2Wifi(void);
-        bool updateFirmware(const char *);
+
     private:
         // Inputs
             // Connection

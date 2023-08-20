@@ -36,25 +36,3 @@ void WifiAdapter::connect2Wifi() {
 //         }
 //     }
 }
-
-
-bool WifiAdapter::updateFirmware(const char * payload) {
-//     DynamicJsonDocument doc(1200);
-//     //Serial.println("EMPIEZA A DESERALIZAR");
-//     DeserializationError error = deserializeJson(doc, payload);
-//     if (error) return;
-
-//     //CONFIGURA MDASH
-//     bool update_enabler = doc["actualizacion_firmware"];
-//     char* device_key = doc["key_contador"];
-//     if (device_key != "null") {
-//         if (update_enabler != updateEnabler || device_key != deviceKey) {
-//             updateEnabler = update_enabler;
-//             deviceKey = device_key;
-//             //USB.println("REINCIANDO ESP32. INCIA MODO REPROGRAMACION");
-//             vTaskDelay(1000);
-//             ESP.restart();
-//         }
-//     }
-    return true;
-}

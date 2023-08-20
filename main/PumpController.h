@@ -1,7 +1,6 @@
 #ifndef PumpController_h
 #define PumpController_h
 
-#include <Arduino.h>
 #include "WaterTank.h"
 
 class PumpController {

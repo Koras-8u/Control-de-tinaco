@@ -55,15 +55,6 @@ uint8_t PumpController::validations(uint8_t water_tank_status) {
 }
 
 /*
-  // Ignore controller
-
-
-// Controller
-    if(ignore) {
-        confirmation = true; // Pump is ON always
-    } else {
-    }
-
   // if (failChecks >= 10) {
   //   confirmation = false;
   //   failChecks = 0;

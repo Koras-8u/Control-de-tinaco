@@ -1,11 +1,11 @@
 #ifndef main_h
 #define main_h
 
-#include "WifiAdapter.h"
 #include "WaterTank.h"
 #include "Relay.h"
 #include "PumpController.h"
 #include "TaskManagerClock.h"
+//#include "WifiAdapter.h"
 
 #define SERIAL_LINE "________________________________________"
 
@@ -22,9 +22,6 @@
 const char* ssid = "MEGACABLE-2.4G-CAA5";
 const char* pass = "T339FtCBVX";
 
-// mDash
-char* deviceKey = "22FqcOwyO6IUN0BmCYK9099g";
-
 // Water tank Specs
 #define WATER_TANK_HEIGHT 1400 // mm
 #define MIN_WATER_DISTANCE 500 // mm
@@ -36,7 +33,7 @@ Relay millerPump(PUMPPIN, "Pump");
 //TaskManagerClock fillingClock;
 TaskManagerClock millerPumpClock;
 PumpController millerPumpController;
-WifiAdapter waterTankWifiAdapter;
+//WifiAdapter waterTankWifiAdapter;
 
 // Operators
     // Water tank
