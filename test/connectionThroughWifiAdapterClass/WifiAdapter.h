@@ -7,6 +7,7 @@
 class WifiAdapter {
     public:
         WifiAdapter();
+        WifiAdapter(const char*, const char*);
         ~WifiAdapter();
         void connect(void);
 
@@ -18,7 +19,6 @@ class WifiAdapter {
     private:
         // Components
         WiFiClient espClient;
-        PubSubClient client;
 
         // Inputs
             // Connection

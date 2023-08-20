@@ -5,6 +5,11 @@
 // --------------------------------------------------
 WifiAdapter::WifiAdapter() {}
 
+WifiAdapter::WifiAdapter(const char* ssid, const char* pass) {
+    this->ssid = ssid;
+    this->pass = pass;
+}
+
 WifiAdapter::~WifiAdapter() {}
 
 // --------------------------------------------------
