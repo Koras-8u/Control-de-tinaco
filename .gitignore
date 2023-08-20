@@ -2,6 +2,7 @@
 /.vscode
 /build/preproc
 /build/sketch
+/_references/codes
 
 # Build results
 build_opt.h
