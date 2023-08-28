@@ -11,14 +11,14 @@ class WifiAdapter {
         void connect(void);
 
         // Setters and getters
-        void setSsid(const char*);
-        void setPass(const char*);
+        void setSSID(const char*);
+        void setPASS(const char*);
 
 
     private:
         // Components
-        WiFiClient espClient;
-        PubSubClient client;
+        WiFiClient client_ref;
+        PubSubClient client_ref;
 
         // Inputs
             // Connection
@@ -28,7 +28,7 @@ class WifiAdapter {
         // Operation
 
         // Outputs
-        bool connection = false;
+        bool connected = false;
 };
 
 #endif

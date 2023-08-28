@@ -3,16 +3,17 @@
 
 #include "WifiAdapter.h"
 #include "Relay.h"
+#include <PubSubClient.h>
 
 #define SERIAL_LINE "________________________________________"
 
 // Actuator pins
 #define RELAYPIN 13 // D7
 
-// Credentials
-// const char* mqtt_server = "test.mosquitto.org";
-
 Relay someRelay(RELAYPIN);
-WifiAdapter waterTankWifiAdapter("MEGACABLE-2.4G-CAA5", "T339FtCBVX");
+
+WiFiClient espClient;
+PubSubClient client(espClient);
+WifiAdapter waterTankWifiAdapter("MEGACABLE-2.4G-CAA5", "T339FtCBVX", "test.mosquitto.org", client);
 
 #endif

@@ -26,10 +26,10 @@ void WifiAdapter::connect() {
         if (attempts < limit) {  // Conexión exitosa
             Serial.print("\nWiFi conectado. IP address: ");
             Serial.println(WiFi.localIP());
-            connection = true;
+            connected = true;
         } else {  // Conexión fallida
             Serial.println("\nERROR AL CONECTAR");
-            connection = false;
+            connected = false;
         }
     }
 }
