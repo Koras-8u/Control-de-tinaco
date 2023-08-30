@@ -12,8 +12,8 @@ void setup()
     // millerWaterTank.measureWaterLvl();
     // Serial.println("-Water level sensor is ready!");
 
-    // // Start clock
-    // millerPumpClock.start();
+    // Start clock
+    millerPumpClock.start();
 
     // Start wifi
     waterTankWifiAdapter.connect2Wifi();
@@ -23,6 +23,10 @@ void loop()
 {
     waterTankWifiAdapter.connect2Broker();
     client.loop();
+
+    millerPumpClock.checksEvery(3000 /*ms*/, []() {
+        client.publish("water-tank/level", "20");
+    });
     // Measure the water level every 3sec
     // millerPumpClock.checksEvery(3000 /*ms*/, updateWaterTankStatus);
 }
