@@ -1,6 +1,7 @@
 #include "main.h"
 
-void setup() {
+void setup()
+{
   // Set up serial monitor
   Serial.begin(115200);
 
@@ -18,11 +19,17 @@ void setup() {
 
   // Start clock
   millerPumpClock.start();
+
+  // Start wifi
+  waterTankWifiAdapter.connect2Wifi();
 }
 
-void loop() {
+void loop()
+{
+  waterTankWifiAdapter.connect2Broker();
+  client.loop();
   // Measure the water level every 3sec
-  millerPumpClock.checksEvery(3000/*ms*/, updateWaterTankStatus);
+  millerPumpClock.checksEvery(3000 /*ms*/, updateWaterTankStatus);
 
   // Confirm if the water tank needs to be filled
   millerPumpController.ignoreValidations(IGNORER);
@@ -33,8 +40,24 @@ void loop() {
   millerPump.activate(pumpConfirmation);
 }
 
-void updateWaterTankStatus() {
+// --------------------------------------------------
+//                   CALLBACKS
+// --------------------------------------------------
+void updateWaterTankStatus()
+{
   Serial.println(SERIAL_LINE);
   millerWaterTank.measureWaterLvl();
   waterTankStatus = millerWaterTank.getWaterTankStatus();
+}
+
+void getMqttData(char *topic, byte *payload, unsigned int length)
+{
+  Serial.print("Mensaje recibido [");
+  Serial.print(topic);
+  Serial.print("] ");
+  for (int i = 0; i < length; i++)
+  {
+    Serial.print((char)payload[i]);
+  }
+  Serial.println();
 }

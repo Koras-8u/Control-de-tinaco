@@ -20,7 +20,7 @@ public:
     void setPASS(const char *);
     const char *getSSID();
     const char *getPASS();
-    bool Connected();
+    bool isConnected();
 
 private:
     // Components

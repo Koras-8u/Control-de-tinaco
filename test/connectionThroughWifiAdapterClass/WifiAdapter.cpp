@@ -93,7 +93,7 @@ const char *WifiAdapter::getPASS()
     return pass;
 }
 
-bool WifiAdapter::Connected()
+bool WifiAdapter::isConnected()
 {
     return connected;
 }
