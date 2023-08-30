@@ -28,7 +28,5 @@ WifiAdapter waterTankWifiAdapter("MEGACABLE-2.4G-CAA5", "T339FtCBVX", client);
 TaskManagerClock millerPumpClock;
 
 // Operators
-// Water tank
-uint8_t waterTankStatus = FULL; // 0 = EMPTY, 1 = FULL, 2 = FINE
 
 #endif

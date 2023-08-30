@@ -14,6 +14,8 @@ public:
     void connect2Wifi(void);
     void connect2Broker(void);
 
+    void publish(uint8_t);
+
     // Setters and getters
     void setPubSubClient(PubSubClient &);
     void setSSID(const char *);

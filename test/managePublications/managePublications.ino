@@ -27,12 +27,7 @@ void loop()
     millerPumpClock.checksEvery(3000 /*ms*/, []() {
         Serial.println(SERIAL_LINE);
         millerWaterTank.measureWaterLvl();
-        waterTankStatus = millerWaterTank.getWaterTankStatus();
-
-        uint8_t level = millerWaterTank.getWaterTankLevel();
-        char levelStr[8];
-        snprintf(levelStr, sizeof(levelStr), "%u", level);
-        client.publish("water-tank/level", levelStr);
+        waterTankWifiAdapter.publish(millerWaterTank.getWaterTankLevel());
     });
 }
 

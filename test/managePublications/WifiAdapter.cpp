@@ -26,16 +26,15 @@ void WifiAdapter::connect2Wifi()
             attempts++;
             delay(200);
         }
-        // Serial.println("");
         if (attempts < limit)
         { // Successful connection
-            Serial.print("|\t-WiFi conectado. IP address: ");
+            Serial.print("\n|\t-WiFi conectado. IP address: ");
             Serial.println(WiFi.localIP());
             connected = true;
         }
         else
         { // Failed connection
-            Serial.println("|\t-ERROR AL CONECTAR");
+            Serial.println("\n|\t-ERROR AL CONECTAR");
             connected = false;
         }
     }
@@ -46,7 +45,7 @@ void WifiAdapter::connect2Broker()
     if (!client_ref.connected())
     {
         // Attempt to connect
-        Serial.print("|\t-Estableciendo conexión MQTT...");
+        Serial.println("|\t-Estableciendo conexión MQTT...");
         String client_id = "ESP8266Client-";
         client_id += String(WiFi.macAddress());
         if (client_ref.connect(client_id.c_str()))
@@ -59,10 +58,17 @@ void WifiAdapter::connect2Broker()
         }
         else
         {
-            Serial.print("|\t|\t-Conexión fallida, rc=");
-            Serial.print(client_ref.state());
+            Serial.print("\n|\t|\t-Conexión fallida, rc=");
+            Serial.println(client_ref.state());
         }
     }
+}
+
+void WifiAdapter::publish(uint8_t level)
+{
+    char levelStr[8];
+    snprintf(levelStr, sizeof(levelStr), "%u", level);
+    client_ref.publish("water-tank/level", levelStr);
 }
 
 // --------------------------------------------------
