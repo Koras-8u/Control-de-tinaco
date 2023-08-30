@@ -43,11 +43,12 @@ void WifiAdapter::connect2Wifi()
 
 void WifiAdapter::connect2Broker()
 {
-    // Loop until we're reconnected
     if (!client_ref.connected())
     {
-        Serial.print("|\t-Estableciendo conexión MQTT...");
         // Attempt to connect
+        Serial.print("|\t-Estableciendo conexión MQTT...");
+        String client_id = "ESP8266Client-";
+        client_id += String(WiFi.macAddress());
         if (client_ref.connect("3NxlmThFyY"))
         {
             Serial.println("|\t|\t-Conectado");
