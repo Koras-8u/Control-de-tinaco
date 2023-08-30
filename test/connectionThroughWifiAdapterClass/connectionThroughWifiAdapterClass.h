@@ -10,10 +10,11 @@
 // Actuator pins
 #define RELAYPIN 13 // D7
 
-Relay someRelay(RELAYPIN);
+void callback(char* topic, byte* payload, unsigned int length);
 
+Relay someRelay(RELAYPIN);
 WiFiClient espClient;
-PubSubClient client(espClient);
-WifiAdapter waterTankWifiAdapter("MEGACABLE-2.4G-CAA5", "T339FtCBVX", "test.mosquitto.org", client);
+PubSubClient client("broker.emqx.io", 1883, callback, espClient);
+WifiAdapter waterTankWifiAdapter("MEGACABLE-2.4G-CAA5", "T339FtCBVX", client);
 
 #endif

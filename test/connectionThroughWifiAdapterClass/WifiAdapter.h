@@ -4,38 +4,37 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
-class WifiAdapter {
-    public:
-        WifiAdapter(const char*, const char*, const char*, PubSubClient&);
-        ~WifiAdapter();
+class WifiAdapter
+{
+public:
+    WifiAdapter(const char *, const char *, PubSubClient &);
+    ~WifiAdapter();
 
-        // Functions
-        void connect(void);
-        void setupMqttClient(void (*)(char*, byte*, unsigned int));
+    // Functions
+    void connect2Wifi(void);
+    void connect2Broker(void);
 
-        // Setters and getters
-        void setPubSubClient(PubSubClient&);
-        void setSSID(const char*);
-        void setPASS(const char*);
-        void setMQTTServer(const char*);
-        const char* getSSID();
-        const char* getPASS();
-        bool Connected();
+    // Setters and getters
+    void setPubSubClient(PubSubClient &);
+    void setSSID(const char *);
+    void setPASS(const char *);
+    const char *getSSID();
+    const char *getPASS();
+    bool Connected();
 
-    private:
-        // Components
+private:
+    // Components
 
-        // Inputs
-        PubSubClient& client_ref;
-            // Credentials
-            const char* ssid = "";
-            const char* pass = "";
-            const char* mqtt_server = "";
+    // Inputs
+    PubSubClient &client_ref;
+    // Credentials
+    const char *ssid = "";
+    const char *pass = "";
 
-        // Operation
+    // Operation
 
-        // Outputs
-        bool connected = false;
+    // Outputs
+    bool connected = false;
 };
 
 // --------------------------------------------------
