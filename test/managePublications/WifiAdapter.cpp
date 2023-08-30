@@ -49,7 +49,7 @@ void WifiAdapter::connect2Broker()
         Serial.print("|\t-Estableciendo conexión MQTT...");
         String client_id = "ESP8266Client-";
         client_id += String(WiFi.macAddress());
-        if (client_ref.connect("3NxlmThFyY"))
+        if (client_ref.connect(client_id.c_str()))
         {
             Serial.println("|\t|\t-Conectado");
             // Once connected, publish an announcement...

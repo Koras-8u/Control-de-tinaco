@@ -21,6 +21,7 @@ class WaterTank {
         // Setters and getters
         void setWaterTankHeight(unsigned int);
         void setMinWaterDistance(unsigned int);
+        uint8_t getWaterTankLevel();
         uint8_t getWaterTankStatus();
 
     private:
