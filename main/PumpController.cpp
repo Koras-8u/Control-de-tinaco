@@ -13,83 +13,82 @@ PumpController::~PumpController() {}
 // --------------------------------------------------
 void PumpController::init(int water_level)
 {
-    this->water_level = water_level;
     last_water_level = water_level;
 }
 
-void PumpController::validate(int water_level)
+void PumpController::validate(int water_level, uint8_t water_tank_status)
 {
-    Delta();
-    if (delta >= 0)
-    {
-        validation = true;
-    }
-    else
-    {
-        validation = false;
-    }
+    Delta(water_level);
+    checkStatus(water_level, water_tank_status);
+    countChecks();
 }
 
-void PumpController::validate(uint8_t water_tank_status)
-{
-    switch (water_tank_status)
-    {
-    case EMPTY:
-        empty_checks++; // How many times the water tank has been detected as empty
-        full_checks = 0;
-        // failChecks++;
-        water_tank_status = FINE;
-        if (empty_checks == 3)
-        {
-            validation = true;
-            empty_checks = 0;
-        }
-        break;
-    case FULL:
-        full_checks++; // How many times the water tank has been detected as full
-        empty_checks = 0;
-        // failChecks++;
-        water_tank_status = FINE;
-        if (full_checks == 3)
-        {
-            validation = false;
-            full_checks = 0;
-        }
-        break;
-    default:
-        // empty_checks = 0;
-        // full_checks = 0;
-        break;
-    }
-}
-
-void PumpController::validate(uint8_t water_tank_status, bool ignore)
+void PumpController::validate(int water_level, uint8_t water_tank_status, bool ignore)
 {
     if (ignore) validation = true;
-    else validate(water_tank_status);
+    else validate(water_level, water_tank_status);
 }
 
-void PumpController::Delta()
+void PumpController::Delta(int water_level)
 {
-    delta = water_level - last_water_level;
+    delta = abs(water_level - last_water_level);
     last_water_level = water_level;
-    Serial.println("|\t-Delta: " + String(delta));
+    Serial.println("|\t|\t-Delta: " + String(delta));
 }
 
-/*
-  // if (failChecks >= 10) {
-  //   validation = false;
-  //   failChecks = 0;
-  //   Serial.println("-EXCEPTION: Sensor is not working properly!");
-  // }
-*/
+void PumpController::checkStatus(int water_level, uint8_t water_tank_status) {
+    if (delta >= threshold)
+    {
+        empty_checks = 0;
+        full_checks = 0;
+        fail_checks++;
+    }
+    else if (delta < threshold && water_tank_status == EMPTY)
+    {
+        empty_checks++;
+        full_checks = 0;
+        fail_checks = 0;
+    }
+    else if (delta < threshold && water_tank_status == FULL)
+    {
+        full_checks++;
+        empty_checks = 0;
+        fail_checks = 0;
+    }
+    else if (delta < threshold && water_tank_status == FINE)
+    {
+        empty_checks = 0;
+        full_checks = 0;
+        fail_checks = 0;
+    }
+}
+
+void PumpController::countChecks()
+{
+    if (fail_checks >= 10)
+    {
+        validation = false;
+        fail_checks = 0;
+        Serial.println("-SENSOR EXCEPTION: Sensor is not working properly!");
+    }
+    else if (empty_checks >= 3)
+    {
+        validation = true;
+        empty_checks = 0;
+    }
+    else if (full_checks >= 3)
+    {
+        validation = false;
+        full_checks = 0;
+    }
+}
 
 // --------------------------------------------------
 //                 GETTERS & SETTERS
 // --------------------------------------------------
 void PumpController::setWaterLevel(int water_level)
 {
-    this->water_level = water_level;
+    last_water_level = water_level;
 }
 
 bool PumpController::getValidation()

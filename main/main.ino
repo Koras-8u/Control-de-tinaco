@@ -42,8 +42,10 @@ void loop()
     waterTankWifiAdapter.publish(millerWaterTank.getWaterTankLevel());
 
     // Confirm if the water tank needs to be filled
+    int waterTankLevel = millerWaterTank.getWaterTankLevel();
+    uint8_t waterTankStatus = millerWaterTank.getWaterTankStatus();
     bool ignore = digitalRead(IGNORER);
-    millerPumpController.validate(millerWaterTank.getWaterTankStatus(), ignore);
+    millerPumpController.validate(waterTankLevel, waterTankStatus, ignore);
 
     // Activate the pump
     millerPump.activate(millerPumpController.getValidation());
