@@ -23,7 +23,7 @@ void loop()
     waterTankWifiAdapter.connect2Broker();
     client.loop();
 
-    // Measure the water level every 3sec
+    // Measure and publish the water level every 3sec
     millerPumpClock.checksEvery(3000 /*ms*/, []() {
         Serial.println(SERIAL_LINE);
         millerWaterTank.measureWaterLvl();

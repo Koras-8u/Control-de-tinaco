@@ -16,8 +16,8 @@ void WifiAdapter::connect2Wifi()
     WiFi.begin(ssid, pass);
     if (WiFi.status() != WL_CONNECTED)
     {
-        int attempts = 0;
-        int limit = 100;
+        uint8_t attempts = 0;
+        uint8_t limit = 100;
         Serial.print("|\t-Conectando a: ");
         Serial.println(ssid);
         while (WiFi.status() != WL_CONNECTED && attempts < limit)
@@ -30,12 +30,12 @@ void WifiAdapter::connect2Wifi()
         { // Successful connection
             Serial.print("\n|\t-WiFi conectado. IP address: ");
             Serial.println(WiFi.localIP());
-            connected = true;
+            wifiStatus = true;
         }
         else
         { // Failed connection
             Serial.println("\n|\t-ERROR AL CONECTAR");
-            connected = false;
+            wifiStatus = false;
         }
     }
 }
@@ -55,20 +55,25 @@ void WifiAdapter::connect2Broker()
             client_ref.publish("water-tank/ad", "Hello from ESP8266");
             // ... and resubscribe
             client_ref.subscribe("water-tank/ignorer");
+            brokerStatus = true;
         }
         else
         {
             Serial.print("\n|\t|\t-Conexión fallida, rc=");
             Serial.println(client_ref.state());
+            brokerStatus = false;
         }
     }
 }
 
 void WifiAdapter::publish(uint8_t level)
 {
-    char levelStr[8];
-    snprintf(levelStr, sizeof(levelStr), "%u", level);
-    client_ref.publish("water-tank/level", levelStr);
+    if (client_ref.connected())
+    {
+        char levelStr[8];
+        snprintf(levelStr, sizeof(levelStr), "%u", level);
+        client_ref.publish("water-tank/level", levelStr);
+    }
 }
 
 // --------------------------------------------------
@@ -99,7 +104,12 @@ const char *WifiAdapter::getPASS()
     return pass;
 }
 
-bool WifiAdapter::isConnected()
+bool WifiAdapter::getWifiStatus()
 {
-    return connected;
+    return wifiStatus;
+}
+
+bool WifiAdapter::getBrokerStatus()
+{
+    return brokerStatus;
 }
