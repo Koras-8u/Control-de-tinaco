@@ -39,6 +39,6 @@ PubSubClient client("broker.emqx.io", 1883, getMqttData, espClient);
 WifiAdapter waterTankWifiAdapter("MEGACABLE-2.4G-CAA5", "T339FtCBVX", client);
 Relay millerPump(PUMPPIN, "Pump");
 PumpController millerPumpController;
-TaskManagerClock millerPumpClock;
+TaskManagerClock millerSensorClock, millerPumpClock;
 
 #endif

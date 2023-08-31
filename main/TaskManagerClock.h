@@ -13,6 +13,8 @@ class TaskManagerClock {
         void stop();
         void reset();
         void checksEvery(unsigned long, void(*)());
+        void runWhile(void(*)(), unsigned long, bool);
+        bool runUntil(unsigned long, bool);
 
         // Setters and getters
 
@@ -22,6 +24,9 @@ class TaskManagerClock {
 
         // Operators
         unsigned long last_check = 0; // ms
+
+        // Output
+        bool running = false;
 };
 
 #endif

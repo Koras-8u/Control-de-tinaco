@@ -21,7 +21,7 @@ void setup()
   millerPumpController.init(millerWaterTank.getWaterTankLevel());
 
   // Start clock
-  millerPumpClock.start();
+  millerSensorClock.start();
 
   // Start wifi
   waterTankWifiAdapter.connect2Wifi();
@@ -33,7 +33,7 @@ void loop()
   client.loop();
 
   // Check the water tank status every 3 seconds
-  millerPumpClock.checksEvery(3000 /*ms*/, []()
+  millerSensorClock.checksEvery(3000 /*ms*/, []()
   {
     Serial.println(SERIAL_LINE);
 
@@ -47,9 +47,12 @@ void loop()
     bool ignore = digitalRead(IGNORER);
     millerPumpController.validate(waterTankLevel, waterTankStatus, ignore);
 
-    // Activate the pump
-    millerPump.activate(millerPumpController.getValidation());
   });
+  
+  
+  // Activate the pump during 10 seconds and stop it if the water tank is full
+  bool pumping = millerPumpClock.runUntil(10000 /*ms*/, millerPumpController.getValidation());
+  millerPump.activate(pumping);
 }
 
 // --------------------------------------------------
