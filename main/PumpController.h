@@ -3,27 +3,27 @@
 
 #include "WaterTank.h"
 
-class PumpController {
-    public:
-        PumpController();
-        ~PumpController();
+class PumpController
+{
+public:
+    PumpController();
+    ~PumpController();
 
-        // Functions
-        void ignoreValidations(uint8_t);
-        uint8_t validations(uint8_t);
+    // Functions
+    void validate(uint8_t);
+    void validate(uint8_t, bool);
 
-        // Setters and getters
-        bool getConfirmation();
+    // Setters and getters
+    bool getValidation();
 
-    private:
-        // Operators
-        unsigned int fullChecks = 0;
-        unsigned int emptyChecks = 0;
-        // unsigned int failChecks = 0;
-        bool ignore = false;
+private:
+    // Operators
+    unsigned int fullChecks = 0;
+    unsigned int emptyChecks = 0;
+    // unsigned int failChecks = 0;
 
-        // Outputs
-        bool confirmation = false;
+    // Outputs
+    bool validation = false;
 };
 
 #endif

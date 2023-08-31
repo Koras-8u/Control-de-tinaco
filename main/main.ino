@@ -29,22 +29,22 @@ void loop()
   waterTankWifiAdapter.connect2Broker();
   client.loop();
 
-  // Measure and publish the water level every 3sec
+  // Check the water tank status every 3 seconds
   millerPumpClock.checksEvery(3000 /*ms*/, []()
   {
     Serial.println(SERIAL_LINE);
+
+    // Measure and publish the water level
     millerWaterTank.measureWaterLvl();
     waterTankWifiAdapter.publish(millerWaterTank.getWaterTankLevel());
 
     // Confirm if the water tank needs to be filled
-    millerPumpController.ignoreValidations(IGNORER);
-    millerPumpController.validations(millerWaterTank.getWaterTankStatus());
-    bool pumpConfirmation = millerPumpController.getConfirmation();
+    bool ignore = digitalRead(IGNORER);
+    millerPumpController.validate(millerWaterTank.getWaterTankStatus(), ignore);
 
     // Activate the pump
-    millerPump.activate(pumpConfirmation);
+    millerPump.activate(millerPumpController.getValidation());
   });
-
 }
 
 // --------------------------------------------------
