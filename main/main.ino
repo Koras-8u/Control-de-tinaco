@@ -17,6 +17,9 @@ void setup()
   millerWaterTank.measureWaterLvl();
   Serial.println("-Water level sensor is ready!");
 
+  // Start controller
+  millerPumpController.init(millerWaterTank.getWaterTankLevel());
+
   // Start clock
   millerPumpClock.start();
 

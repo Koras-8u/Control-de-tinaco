@@ -11,35 +11,54 @@ PumpController::~PumpController() {}
 // --------------------------------------------------
 //                     FUNCTIONS
 // --------------------------------------------------
+void PumpController::init(int water_level)
+{
+    this->water_level = water_level;
+    last_water_level = water_level;
+}
+
+void PumpController::validate(int water_level)
+{
+    Delta();
+    if (delta >= 0)
+    {
+        validation = true;
+    }
+    else
+    {
+        validation = false;
+    }
+}
+
 void PumpController::validate(uint8_t water_tank_status)
 {
     switch (water_tank_status)
     {
     case EMPTY:
-        emptyChecks++; // How many times the water tank has been detected as empty
-        fullChecks = 0;
+        empty_checks++; // How many times the water tank has been detected as empty
+        full_checks = 0;
         // failChecks++;
         water_tank_status = FINE;
-        if (emptyChecks == 3)
+        if (empty_checks == 3)
         {
             validation = true;
-            emptyChecks = 0;
+            empty_checks = 0;
         }
         break;
     case FULL:
-        fullChecks++; // How many times the water tank has been detected as full
-        emptyChecks = 0;
+        full_checks++; // How many times the water tank has been detected as full
+        empty_checks = 0;
         // failChecks++;
         water_tank_status = FINE;
-        if (fullChecks == 3)
+        if (full_checks == 3)
         {
             validation = false;
-            fullChecks = 0;
+            full_checks = 0;
         }
         break;
     default:
-        // emptyChecks = 0;
-        // fullChecks = 0;
+        // empty_checks = 0;
+        // full_checks = 0;
         break;
     }
 }
@@ -48,6 +67,13 @@ void PumpController::validate(uint8_t water_tank_status, bool ignore)
 {
     if (ignore) validation = true;
     else validate(water_tank_status);
+}
+
+void PumpController::Delta()
+{
+    delta = water_level - last_water_level;
+    last_water_level = water_level;
+    Serial.println("|\t-Delta: " + String(delta));
 }
 
 /*
@@ -61,6 +87,11 @@ void PumpController::validate(uint8_t water_tank_status, bool ignore)
 // --------------------------------------------------
 //                 GETTERS & SETTERS
 // --------------------------------------------------
+void PumpController::setWaterLevel(int water_level)
+{
+    this->water_level = water_level;
+}
+
 bool PumpController::getValidation()
 {
     return validation;

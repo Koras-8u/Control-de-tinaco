@@ -10,20 +10,30 @@ public:
     ~PumpController();
 
     // Functions
+    void init(int);
+    void validate(int);
     void validate(uint8_t);
     void validate(uint8_t, bool);
 
     // Setters and getters
-    bool getValidation();
+    void setWaterLevel(int);
+    bool getValidation(void);
 
 private:
+// Inputs
+    int water_level = 0;
+    int last_water_level = 0;
     // Operators
-    unsigned int fullChecks = 0;
-    unsigned int emptyChecks = 0;
+    int delta = 0;
+    unsigned int full_checks = 0;
+    unsigned int empty_checks = 0;
     // unsigned int failChecks = 0;
 
     // Outputs
     bool validation = false;
+
+    // Functions
+    void Delta();
 };
 
 #endif
