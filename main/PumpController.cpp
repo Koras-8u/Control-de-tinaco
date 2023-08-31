@@ -21,6 +21,7 @@ void PumpController::validate(int water_level, uint8_t water_tank_status)
     Delta(water_level);
     checkStatus(water_level, water_tank_status);
     countChecks();
+    clockValidation();
 }
 
 void PumpController::validate(int water_level, uint8_t water_tank_status, bool ignore)
@@ -81,6 +82,13 @@ void PumpController::countChecks()
         validation = false;
         full_checks = 0;
     }
+}
+
+void PumpController::clockValidation()
+{
+    bool running = clock.runUntil(10000 /*ms*/, validation);
+    if (running) validation = true;
+    else validation = false;
 }
 
 // --------------------------------------------------

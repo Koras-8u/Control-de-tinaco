@@ -46,12 +46,10 @@ void loop()
     uint8_t waterTankStatus = millerWaterTank.getWaterTankStatus();
     bool ignore = digitalRead(IGNORER);
     millerPumpController.validate(waterTankLevel, waterTankStatus, ignore);
-
   });
   
-  
   // Activate the pump during 10 seconds and stop it if the water tank is full
-  bool pumping = millerPumpClock.runUntil(10000 /*ms*/, millerPumpController.getValidation());
+  bool pumping =  millerPumpController.getValidation();
   millerPump.activate(pumping);
 }
 
