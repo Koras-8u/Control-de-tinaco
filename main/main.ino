@@ -28,28 +28,28 @@ void loop()
 {
   waterTankWifiAdapter.connect2Broker();
   client.loop();
-  // Measure the water level every 3sec
-  millerPumpClock.checksEvery(3000 /*ms*/, updateWaterTankStatus);
 
-  // Confirm if the water tank needs to be filled
-  millerPumpController.ignoreValidations(IGNORER);
-  waterTankStatus = millerPumpController.validations(waterTankStatus);
-  bool pumpConfirmation = millerPumpController.getConfirmation();
+  // Measure and publish the water level every 3sec
+  millerPumpClock.checksEvery(3000 /*ms*/, []()
+  {
+    Serial.println(SERIAL_LINE);
+    millerWaterTank.measureWaterLvl();
+    waterTankWifiAdapter.publish(millerWaterTank.getWaterTankLevel());
 
-  // Activate the pump
-  millerPump.activate(pumpConfirmation);
+    // Confirm if the water tank needs to be filled
+    millerPumpController.ignoreValidations(IGNORER);
+    millerPumpController.validations(millerWaterTank.getWaterTankStatus());
+    bool pumpConfirmation = millerPumpController.getConfirmation();
+
+    // Activate the pump
+    millerPump.activate(pumpConfirmation);
+  });
+
 }
 
 // --------------------------------------------------
 //                   CALLBACKS
 // --------------------------------------------------
-void updateWaterTankStatus()
-{
-  Serial.println(SERIAL_LINE);
-  millerWaterTank.measureWaterLvl();
-  waterTankStatus = millerWaterTank.getWaterTankStatus();
-}
-
 void getMqttData(char *topic, byte *payload, unsigned int length)
 {
   Serial.print("Mensaje recibido [");

@@ -13,6 +13,7 @@ public:
     // Functions
     void connect2Wifi(void);
     void connect2Broker(void);
+    void publish(uint8_t);
 
     // Setters and getters
     void setPubSubClient(PubSubClient &);
@@ -20,34 +21,22 @@ public:
     void setPASS(const char *);
     const char *getSSID();
     const char *getPASS();
-    bool isConnected();
+    bool getWifiStatus();
+    bool getBrokerStatus();
 
 private:
     // Components
 
     // Inputs
     PubSubClient &client_ref;
-    // Credentials
     const char *ssid = "";
     const char *pass = "";
 
     // Operation
 
     // Outputs
-    bool connected = false;
+    bool wifiStatus = false;
+    bool brokerStatus = false;
 };
-
-// --------------------------------------------------
-//                 EXTERNAL FUNCTIONS
-// --------------------------------------------------
-// void callback(char* topic, byte* payload, unsigned int length) {
-//     Serial.print("Mensaje recibido [");
-//     Serial.print(topic);
-//     Serial.print("] ");
-//     for (int i = 0; i < length; i++) {
-//         Serial.print((char)payload[i]);
-//     }
-//     Serial.println();
-// }
 
 #endif

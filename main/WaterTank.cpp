@@ -59,6 +59,10 @@ void WaterTank::setMinWaterDistance(unsigned int min_water_distance) {
     this->min_water_distance = min_water_distance;
 }
 
+uint8_t WaterTank::getWaterTankLevel() {
+    return water_level;
+}
+
 uint8_t WaterTank::getWaterTankStatus() {
     return status;
 }

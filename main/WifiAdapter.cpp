@@ -16,8 +16,8 @@ void WifiAdapter::connect2Wifi()
     WiFi.begin(ssid, pass);
     if (WiFi.status() != WL_CONNECTED)
     {
-        int attempts = 0;
-        int limit = 100;
+        uint8_t attempts = 0;
+        uint8_t limit = 100;
         Serial.print("|\t-Conectando a: ");
         Serial.println(ssid);
         while (WiFi.status() != WL_CONNECTED && attempts < limit)
@@ -26,17 +26,16 @@ void WifiAdapter::connect2Wifi()
             attempts++;
             delay(200);
         }
-        // Serial.println("");
         if (attempts < limit)
         { // Successful connection
-            Serial.print("|\t-WiFi conectado. IP address: ");
+            Serial.print("\n|\t-WiFi conectado. IP address: ");
             Serial.println(WiFi.localIP());
-            connected = true;
+            wifiStatus = true;
         }
         else
         { // Failed connection
-            Serial.println("|\t-ERROR AL CONECTAR");
-            connected = false;
+            Serial.println("\n|\t-ERROR AL CONECTAR");
+            wifiStatus = false;
         }
     }
 }
@@ -46,22 +45,34 @@ void WifiAdapter::connect2Broker()
     if (!client_ref.connected())
     {
         // Attempt to connect
-        Serial.print("|\t-Estableciendo conexión MQTT...");
+        Serial.println("|\t-Estableciendo conexión MQTT...");
         String client_id = "ESP8266Client-";
         client_id += String(WiFi.macAddress());
-        if (client_ref.connect("3NxlmThFyY"))
+        if (client_ref.connect(client_id.c_str()))
         {
             Serial.println("|\t|\t-Conectado");
             // Once connected, publish an announcement...
             client_ref.publish("water-tank/ad", "Hello from ESP8266");
             // ... and resubscribe
             client_ref.subscribe("water-tank/ignorer");
+            brokerStatus = true;
         }
         else
         {
-            Serial.print("|\t|\t-Conexión fallida, rc=");
-            Serial.print(client_ref.state());
+            Serial.print("\n|\t|\t-Conexión fallida, rc=");
+            Serial.println(client_ref.state());
+            brokerStatus = false;
         }
+    }
+}
+
+void WifiAdapter::publish(uint8_t level)
+{
+    if (client_ref.connected())
+    {
+        char levelStr[8];
+        snprintf(levelStr, sizeof(levelStr), "%u", level);
+        client_ref.publish("water-tank/level", levelStr);
     }
 }
 
@@ -93,7 +104,12 @@ const char *WifiAdapter::getPASS()
     return pass;
 }
 
-bool WifiAdapter::isConnected()
+bool WifiAdapter::getWifiStatus()
 {
-    return connected;
+    return wifiStatus;
+}
+
+bool WifiAdapter::getBrokerStatus()
+{
+    return brokerStatus;
 }
