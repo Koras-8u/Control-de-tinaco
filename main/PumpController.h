@@ -26,6 +26,7 @@ private:
 
     // Inputs
     int last_water_level = 0;
+    bool last_ignore = false;
 
     // Operators
     const int threshold = 10;

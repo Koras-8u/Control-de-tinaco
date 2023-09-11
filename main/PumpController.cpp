@@ -26,8 +26,21 @@ void PumpController::validate(int water_level, uint8_t water_tank_status)
 
 void PumpController::validate(int water_level, uint8_t water_tank_status, bool ignore)
 {
-    if (ignore) validation = true;
-    else validate(water_level, water_tank_status);
+    if (ignore)
+    {
+        last_ignore =  ignore;
+        validation = true;
+    }
+    else
+    {   
+        if(last_ignore && !ignore)
+        {
+            last_ignore = ignore;
+            validation = false;
+        }
+        validate(water_level, water_tank_status);
+    }
+
 }
 
 void PumpController::Delta(int water_level)
@@ -37,7 +50,8 @@ void PumpController::Delta(int water_level)
     Serial.println("|\t|\t-Delta: " + String(delta));
 }
 
-void PumpController::checkStatus(int water_level, uint8_t water_tank_status) {
+void PumpController::checkStatus(int water_level, uint8_t water_tank_status)
+{
     if (delta >= threshold)
     {
         empty_checks = 0;
@@ -82,13 +96,19 @@ void PumpController::countChecks()
         validation = false;
         full_checks = 0;
     }
+    else
+    {
+        validation = validation;
+    }
 }
 
 void PumpController::clockValidation()
 {
-    bool running = clock.runUntil(20/*seconds*/, MIN, validation);
-    if (running) validation = true;
-    else validation = false;
+    bool running = clock.runUntil(20 /*seconds*/, MIN, validation);
+    if (running)
+        validation = true;
+    else
+        validation = false;
 }
 
 // --------------------------------------------------
