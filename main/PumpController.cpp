@@ -104,7 +104,7 @@ void PumpController::countChecks()
 
 void PumpController::clockValidation()
 {
-    bool running = clock.runUntil(20 /*seconds*/, MIN, validation);
+    bool running = clock.runUntil(20 /*minutes*/, MIN, validation);
     if (running)
         validation = true;
     else
