@@ -7,51 +7,53 @@ void setup()
 
   // Start pump
   pinMode(PUMPPIN, OUTPUT);
-  millerPump.activate(false);
+  pump.activate(false);
   Serial.println("-Pump is OFF");
 
   // Start sensor
   pinMode(ECHOPIN, INPUT);
   pinMode(TRIGPIN, OUTPUT);
   pinMode(IGNORER, INPUT);
-  millerWaterTank.measureWaterLvl();
+  waterTank.measureWaterLvl();
   Serial.println("-Water level sensor is ready!");
 
   // Start controller
-  millerPumpController.init(millerWaterTank.getWaterTankLevel());
+  pumpController.init(waterTank.getWaterTankLevel());
 
   // Start clock
-  millerSensorClock.start();
+  sensorClock.start();
 
   // Start wifi
-  waterTankWifiAdapter.connect2Wifi();
+  wifiAdapter.connect2Wifi();
 }
 
 void loop()
 {
-  waterTankWifiAdapter.connect2Broker();
+  wifiAdapter.connect2Broker();
   client.loop();
 
   // Check the water tank status every 3 seconds
-  millerSensorClock.checksEvery(3/*seconds*/, []()
+  sensorClock.checksEvery(3/*seconds*/, []()
   {
     Serial.println(SERIAL_LINE);
 
     // Measure and publish the water level
-    millerWaterTank.measureWaterLvl();
-    waterTankWifiAdapter.publish("water-tank/level", millerWaterTank.getWaterTankLevel());
+    waterTank.measureWaterLvl();
+    wifiAdapter.publish("water-tank/level", waterTank.getWaterTankLevel());
 
     // Confirm if the water tank needs to be filled
-    int waterTankLevel = millerWaterTank.getWaterTankLevel();
-    uint8_t waterTankStatus = millerWaterTank.getWaterTankStatus();
+    int waterTankLevel = waterTank.getWaterTankLevel();
+    uint8_t waterTankStatus = waterTank.getWaterTankStatus();
     bool ignore = digitalRead(IGNORER);
-    millerPumpController.validate(waterTankLevel, waterTankStatus, ignore);
-    waterTankWifiAdapter.publish("water-tank/timer", millerPumpController.getTimer());
+    pumpController.validate(waterTankLevel, waterTankStatus, ignore);
+    wifiAdapter.publish("water-tank/timer", pumpController.getTimer());
+    
+    // Activate the pump during 20 minutes and stop it if the water tank is full
+    bool pumping =  pumpController.getValidation();
+    pump.activate(pumping);
+    wifiAdapter.publish("water-tank/pump", pumping? "ON" : "OFF");
   });
   
-  // Activate the pump during 10 seconds and stop it if the water tank is full
-  bool pumping =  millerPumpController.getValidation();
-  millerPump.activate(pumping);
 }
 
 // --------------------------------------------------
@@ -59,12 +61,12 @@ void loop()
 // --------------------------------------------------
 void getMqttData(char *topic, byte *payload, unsigned int length)
 {
-  Serial.print("Mensaje recibido [");
-  Serial.print(topic);
-  Serial.print("] ");
-  for (int i = 0; i < length; i++)
-  {
-    Serial.print((char)payload[i]);
-  }
-  Serial.println();
+  // Serial.print("Mensaje recibido [");
+  // Serial.print(topic);
+  // Serial.print("] ");
+  // for (int i = 0; i < length; i++)
+  // {
+  //   Serial.print((char)payload[i]);
+  // }
+  // Serial.println();
 }

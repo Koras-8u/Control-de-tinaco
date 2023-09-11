@@ -76,6 +76,14 @@ void WifiAdapter::publish(const char * topic, double payload)
     }
 }
 
+void WifiAdapter::publish(const char * topic, const char * payload)
+{
+    if (client_ref.connected())
+    {
+        client_ref.publish(topic, payload);
+    }
+}
+
 // --------------------------------------------------
 //                 GETTERS & SETTERS
 // --------------------------------------------------

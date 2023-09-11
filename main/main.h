@@ -32,13 +32,13 @@ const char *mqtt_server = "test.mosquitto.org";
 void getMqttData(char *topic, byte *payload, unsigned int length);
 
 // Components
-JSN_SR04T millerSensor(TRIGPIN, ECHOPIN);
-WaterTank millerWaterTank(millerSensor, WATER_TANK_HEIGHT, MIN_WATER_DISTANCE);
+JSN_SR04T sensor(TRIGPIN, ECHOPIN);
+WaterTank waterTank(sensor, WATER_TANK_HEIGHT, MIN_WATER_DISTANCE);
 WiFiClient espClient;
 PubSubClient client("broker.emqx.io", 1883, getMqttData, espClient);
-WifiAdapter waterTankWifiAdapter("MEGACABLE-2.4G-CAA5", "T339FtCBVX", client);
-Relay millerPump(PUMPPIN, "Pump");
-PumpController millerPumpController;
-TaskManagerClock millerSensorClock;
+WifiAdapter wifiAdapter("MEGACABLE-2.4G-CAA5", "T339FtCBVX", client);
+Relay pump(PUMPPIN, "Pump");
+PumpController pumpController;
+TaskManagerClock sensorClock;
 
 #endif

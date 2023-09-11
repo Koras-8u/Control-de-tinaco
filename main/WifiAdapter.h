@@ -14,6 +14,7 @@ public:
     void connect2Wifi(void);
     void connect2Broker(void);
     void publish(const char *, double);
+    void publish(const char *, const char *);
 
     // Setters and getters
     void setPubSubClient(PubSubClient &);
