@@ -33,19 +33,20 @@ void loop()
   client.loop();
 
   // Check the water tank status every 3 seconds
-  millerSensorClock.checksEvery(3000 /*ms*/, []()
+  millerSensorClock.checksEvery(3/*seconds*/, []()
   {
     Serial.println(SERIAL_LINE);
 
     // Measure and publish the water level
     millerWaterTank.measureWaterLvl();
-    waterTankWifiAdapter.publish(millerWaterTank.getWaterTankLevel());
+    waterTankWifiAdapter.publish("water-tank/level", millerWaterTank.getWaterTankLevel());
 
     // Confirm if the water tank needs to be filled
     int waterTankLevel = millerWaterTank.getWaterTankLevel();
     uint8_t waterTankStatus = millerWaterTank.getWaterTankStatus();
     bool ignore = digitalRead(IGNORER);
     millerPumpController.validate(waterTankLevel, waterTankStatus, ignore);
+    waterTankWifiAdapter.publish("water-tank/timer", millerPumpController.getTimer());
   });
   
   // Activate the pump during 10 seconds and stop it if the water tank is full

@@ -66,13 +66,13 @@ void WifiAdapter::connect2Broker()
     }
 }
 
-void WifiAdapter::publish(uint8_t level)
+void WifiAdapter::publish(const char * topic, double payload)
 {
     if (client_ref.connected())
     {
         char levelStr[8];
-        snprintf(levelStr, sizeof(levelStr), "%u", level);
-        client_ref.publish("water-tank/level", levelStr);
+        snprintf(levelStr, sizeof(levelStr), "%.2f", payload);
+        client_ref.publish(topic, levelStr);
     }
 }
 

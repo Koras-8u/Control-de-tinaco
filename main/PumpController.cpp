@@ -86,7 +86,7 @@ void PumpController::countChecks()
 
 void PumpController::clockValidation()
 {
-    bool running = clock.runUntil(10000 /*ms*/, validation);
+    bool running = clock.runUntil(20/*seconds*/, MIN, validation);
     if (running) validation = true;
     else validation = false;
 }
@@ -102,4 +102,9 @@ void PumpController::setWaterLevel(int water_level)
 bool PumpController::getValidation()
 {
     return validation;
+}
+
+double PumpController::getTimer()
+{
+    return clock.getTimer();
 }

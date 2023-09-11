@@ -13,7 +13,7 @@ public:
     // Functions
     void connect2Wifi(void);
     void connect2Broker(void);
-    void publish(uint8_t);
+    void publish(const char *, double);
 
     // Setters and getters
     void setPubSubClient(PubSubClient &);

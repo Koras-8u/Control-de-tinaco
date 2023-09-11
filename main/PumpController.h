@@ -18,6 +18,7 @@ public:
     // Setters and getters
     void setWaterLevel(int);
     bool getValidation(void);
+    double getTimer();
 
 private:
     // Components

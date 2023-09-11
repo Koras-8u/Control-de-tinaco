@@ -15,7 +15,7 @@ void TaskManagerClock::start()
     last_check = millis();
     timer = millis() - last_check;
     running = true;
-    Serial.println("|\t|\t-Timer started at: " + String(last_check) + " ms");
+    //Serial.println("|\t|\t-Timer started at: " + String(last_check) + " ms");
 }
 
 void TaskManagerClock::stop()
@@ -23,17 +23,23 @@ void TaskManagerClock::stop()
     last_check = millis();
     timer = 0;
     running = false;
-    Serial.println("|\t|\t-Timer stopped at: " + String(last_check) + " ms");
+    //Serial.println("|\t|\t-Timer stopped at: " + String(last_check) + " ms");
 }
 
-void TaskManagerClock::checksEvery(unsigned long timer_interval, void (*callback)())
+void TaskManagerClock::checksEvery(double timer_interval, uint32_t unit, void (*callback)())
 {
     timer = millis() - last_check;
-    if (timer >= timer_interval)
+    decimal_timer = double(timer)/unit;
+    if (decimal_timer >= timer_interval)
     {
         stop();
         (*callback)();
     }
+}
+
+void TaskManagerClock::checksEvery(double timer_interval, void (*callback)())
+{
+    checksEvery(timer_interval, SEC, callback);
 }
 
 void TaskManagerClock::runWhile(void (*callback)(), unsigned long timer_interval, bool enable)
@@ -50,8 +56,7 @@ void TaskManagerClock::runWhile(void (*callback)(), unsigned long timer_interval
         else stop();
     }
 }
-
-bool TaskManagerClock::runUntil(unsigned long timer_interval, bool enable)
+bool TaskManagerClock::runUntil(double timer_interval, uint32_t unit, bool enable)
 {
     if (enable && !running)
     {
@@ -65,9 +70,22 @@ bool TaskManagerClock::runUntil(unsigned long timer_interval, bool enable)
     if (running)
     {
         timer = millis() - last_check;
-        //Serial.print("|\t|\t-Running: " + String(timer) + " ms");
-        if (timer >= timer_interval) stop();
+        decimal_timer = double(timer)/unit;
+        if (decimal_timer >= timer_interval) stop();
     }
 
     return running;
+}
+
+bool TaskManagerClock::runUntil(double timer_interval, bool enable)
+{
+    runUntil(timer_interval, SEC, enable);
+}
+
+// --------------------------------------------------
+//                 GETTERS & SETTERS
+// --------------------------------------------------
+double TaskManagerClock::getTimer()
+{
+    return decimal_timer;
 }
