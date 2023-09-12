@@ -45,6 +45,7 @@ void loop()
     int waterTankLevel = waterTank.getWaterTankLevel();
     uint8_t waterTankStatus = waterTank.getWaterTankStatus();
     bool ignore = digitalRead(IGNORER);
+    wifiAdapter.publish("water-tank/ignore", ignore ? "TRUE" : "FALSE");
     pumpController.validate(waterTankLevel, waterTankStatus, ignore);
     wifiAdapter.publish("water-tank/timer", pumpController.getTimer());
     
