@@ -5,7 +5,7 @@
 #include "Relay.h"
 #include "PumpController.h"
 #include "TaskManagerClock.h"
-#include "WifiAdapter.h"
+#include "WifiManager.h"
 #include <PubSubClient.h>
 
 #define SERIAL_LINE "________________________________________"
@@ -19,11 +19,6 @@
 // Actuator pins
 #define PUMPPIN 13 // D7
 
-// Credentials
-const char *ssid = "MEGACABLE-2.4G-CAA5";
-const char *pass = "T339FtCBVX";
-const char *mqtt_server = "test.mosquitto.org";
-
 // Water tank Specs
 #define WATER_TANK_HEIGHT 1400 // mm
 #define MIN_WATER_DISTANCE 500 // mm
@@ -36,9 +31,9 @@ JSN_SR04T sensor(TRIGPIN, ECHOPIN);
 WaterTank waterTank(sensor, WATER_TANK_HEIGHT, MIN_WATER_DISTANCE);
 WiFiClient espClient;
 PubSubClient client("broker.emqx.io", 1883, getMqttData, espClient);
-WifiAdapter wifiAdapter("MEGACABLE-2.4G-CAA5", "T339FtCBVX", client);
+WifiManager wifiManager("MEGACABLE-2.4G-CAA5", "T339FtCBVX", client);
 Relay pump(PUMPPIN, "Pump");
 PumpController pumpController;
-TaskManagerClock sensorClock;
+TaskManagerClock sensorClock, wifiClock;
 
 #endif

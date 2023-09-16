@@ -1,16 +1,17 @@
-#ifndef WifiAdapter_h
-#define WifiAdapter_h
+#ifndef WifiManager_h
+#define WifiManager_h
 
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
-class WifiAdapter
+class WifiManager
 {
 public:
-    WifiAdapter(const char *, const char *, PubSubClient &);
-    ~WifiAdapter();
+    WifiManager(const char *, const char *, PubSubClient &);
+    ~WifiManager();
 
     // Functions
+    void begin(void);
     void connect2Wifi(void);
     void connect2Broker(void);
     void publish(const char *, double);

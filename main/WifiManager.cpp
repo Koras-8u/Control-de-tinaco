@@ -1,19 +1,25 @@
-#include "WifiAdapter.h"
+#include "WifiManager.h"
 
 // --------------------------------------------------
 //                    CONSTRUCTORS
 // --------------------------------------------------
-WifiAdapter::WifiAdapter(const char *ssid, const char *pass, PubSubClient &client)
+WifiManager::WifiManager(const char *ssid, const char *pass, PubSubClient &client)
     : ssid(ssid), pass(pass), client_ref(client) {}
 
-WifiAdapter::~WifiAdapter() {}
+WifiManager::~WifiManager() {}
 
 // --------------------------------------------------
 //                     FUNCTIONS
 // --------------------------------------------------
-void WifiAdapter::connect2Wifi()
+void WifiManager::begin()
 {
     WiFi.begin(ssid, pass);
+    connect2Wifi();
+    connect2Broker();
+}
+
+void WifiManager::connect2Wifi()
+{
     if (WiFi.status() != WL_CONNECTED)
     {
         uint8_t attempts = 0;
@@ -40,9 +46,9 @@ void WifiAdapter::connect2Wifi()
     }
 }
 
-void WifiAdapter::connect2Broker()
+void WifiManager::connect2Broker()
 {
-    if (!client_ref.connected())
+    if (!client_ref.connected() && wifiStatus)
     {
         // Attempt to connect
         Serial.println("|\t-Estableciendo conexión MQTT...");
@@ -66,7 +72,7 @@ void WifiAdapter::connect2Broker()
     }
 }
 
-void WifiAdapter::publish(const char * topic, double payload)
+void WifiManager::publish(const char * topic, double payload)
 {
     if (client_ref.connected())
     {
@@ -76,7 +82,7 @@ void WifiAdapter::publish(const char * topic, double payload)
     }
 }
 
-void WifiAdapter::publish(const char * topic, const char * payload)
+void WifiManager::publish(const char * topic, const char * payload)
 {
     if (client_ref.connected())
     {
@@ -87,37 +93,37 @@ void WifiAdapter::publish(const char * topic, const char * payload)
 // --------------------------------------------------
 //                 GETTERS & SETTERS
 // --------------------------------------------------
-void WifiAdapter::setPubSubClient(PubSubClient &client)
+void WifiManager::setPubSubClient(PubSubClient &client)
 {
     client_ref = client;
 }
 
-void WifiAdapter::setSSID(const char *ssid)
+void WifiManager::setSSID(const char *ssid)
 {
     this->ssid = ssid;
 }
 
-void WifiAdapter::setPASS(const char *pass)
+void WifiManager::setPASS(const char *pass)
 {
     this->pass = pass;
 }
 
-const char *WifiAdapter::getSSID()
+const char *WifiManager::getSSID()
 {
     return ssid;
 }
 
-const char *WifiAdapter::getPASS()
+const char *WifiManager::getPASS()
 {
     return pass;
 }
 
-bool WifiAdapter::getWifiStatus()
+bool WifiManager::getWifiStatus()
 {
     return wifiStatus;
 }
 
-bool WifiAdapter::getBrokerStatus()
+bool WifiManager::getBrokerStatus()
 {
     return brokerStatus;
 }
