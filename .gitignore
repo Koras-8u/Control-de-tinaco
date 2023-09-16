@@ -50,3 +50,6 @@ build_opt.h
 *.exe
 *.out
 *.app
+
+# Others
+*.pptx
