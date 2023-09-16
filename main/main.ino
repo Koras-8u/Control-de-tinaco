@@ -67,14 +67,20 @@ void loop()
 // --------------------------------------------------
 //                   CALLBACKS
 // --------------------------------------------------
-void getMqttData(char *topic, byte *payload, unsigned int length)
+void rebootThroughMqtt(char *topic, byte *payload, unsigned int length)
 {
-  // Serial.print("Mensaje recibido [");
-  // Serial.print(topic);
-  // Serial.print("] ");
-  // for (int i = 0; i < length; i++)
-  // {
-  //   Serial.print((char)payload[i]);
-  // }
-  // Serial.println();
+  Serial.print("Message arrived [");
+  Serial.print(topic);
+  Serial.print("] ");
+  for (int i = 0; i < length; i++) {
+    Serial.print((char)payload[i]);
+  }
+  Serial.println();
+
+  // reboot the device
+  if ((char)payload[0] == '1') {
+    ESP.restart();
+  } else {
+    Serial.println("Invalid command");
+  }
 }

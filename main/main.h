@@ -24,13 +24,13 @@
 #define MIN_WATER_DISTANCE 500 // mm
 
 // Callbacks
-void getMqttData(char *topic, byte *payload, unsigned int length);
+void rebootThroughMqtt(char *topic, byte *payload, unsigned int length);
 
 // Components
 JSN_SR04T sensor(TRIGPIN, ECHOPIN);
 WaterTank waterTank(sensor, WATER_TANK_HEIGHT, MIN_WATER_DISTANCE);
 WiFiClient espClient;
-PubSubClient client("broker.emqx.io", 1883, getMqttData, espClient);
+PubSubClient client("broker.emqx.io", 1883, rebootThroughMqtt, espClient);
 WifiManager wifiManager("MEGACABLE-2.4G-CAA5", "T339FtCBVX", client);
 Relay pump(PUMPPIN, "Pump");
 PumpController pumpController;

@@ -16,6 +16,7 @@ public:
     void connect2Broker(void);
     void publish(const char *, double);
     void publish(const char *, const char *);
+    void subscribe(const char *);
 
     // Setters and getters
     void setPubSubClient(PubSubClient &);

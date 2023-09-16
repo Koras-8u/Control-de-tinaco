@@ -60,7 +60,7 @@ void WifiManager::connect2Broker()
             // Once connected, publish an announcement...
             client_ref.publish("water-tank/ad", "Hello from ESP8266");
             // ... and resubscribe
-            client_ref.subscribe("water-tank/ignorer");
+            client_ref.subscribe("water-tank/reboot");
             brokerStatus = true;
         }
         else
@@ -87,6 +87,14 @@ void WifiManager::publish(const char * topic, const char * payload)
     if (client_ref.connected())
     {
         client_ref.publish(topic, payload);
+    }
+}
+
+void WifiManager::subscribe(const char * topic)
+{
+    if (client_ref.connected())
+    {
+        client_ref.subscribe(topic);
     }
 }
 
