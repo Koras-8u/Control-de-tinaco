@@ -22,14 +22,21 @@ void setup()
 
   // Start clock
   sensorClock.start();
+  wifiClock.start();
 
   // Start wifi
-  wifiAdapter.connect2Wifi();
+  wifiManager.begin();
 }
 
 void loop()
 {
-  wifiAdapter.connect2Broker();
+  // Check the wifi and the broker every minute
+  wifiClock.checksEvery(1, MIN, []() {
+    wifiManager.connect2Wifi();
+    wifiManager.connect2Broker();
+    wifiManager.publish("water-tank/ad", "Still alive!");
+  });
+
   client.loop();
 
   // Check the water tank status every 3 seconds
@@ -39,20 +46,20 @@ void loop()
 
     // Measure and publish the water level
     waterTank.measureWaterLvl();
-    wifiAdapter.publish("water-tank/level", waterTank.getWaterTankLevel());
+    wifiManager.publish("water-tank/level", waterTank.getWaterTankLevel());
 
     // Confirm if the water tank needs to be filled
     int waterTankLevel = waterTank.getWaterTankLevel();
     uint8_t waterTankStatus = waterTank.getWaterTankStatus();
     bool ignore = digitalRead(IGNORER);
-    wifiAdapter.publish("water-tank/ignore", ignore ? "TRUE" : "FALSE");
+    wifiManager.publish("water-tank/ignore", ignore ? "TRUE" : "FALSE");
     pumpController.validate(waterTankLevel, waterTankStatus, ignore);
-    wifiAdapter.publish("water-tank/timer", pumpController.getTimer());
+    wifiManager.publish("water-tank/timer", pumpController.getTimer());
     
     // Activate the pump during 20 minutes and stop it if the water tank is full
     bool pumping =  pumpController.getValidation();
     pump.activate(pumping);
-    wifiAdapter.publish("water-tank/pump", pumping? "ON" : "OFF");
+    wifiManager.publish("water-tank/pump", pumping? "ON" : "OFF");
   });
   
 }
